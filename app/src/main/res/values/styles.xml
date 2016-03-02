@@ -8,6 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <!--<item name="android:titleTextColor">@color/colorToolbarTitle</item>-->
+        <!--<item name="homeAsUpIndicator">@drawable/abc_ic_ab_back_mtrl_am_alpha</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -18,5 +20,4 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 </resources>
