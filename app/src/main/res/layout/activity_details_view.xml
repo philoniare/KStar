@@ -26,75 +26,19 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"/>
 
+
+
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabanim_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tabanim_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:height="300dp"
-                android:id="@+id/artistTitle" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:text="Hiiii" />
-
-            <android.support.v4.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:height="300dp"
-                        android:id="@+id/artistTitle" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:text="Hiiii" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:text="Hiiii" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:text="Hiiii" />
-                </LinearLayout>
-
-
-            </android.support.v4.widget.NestedScrollView>    <TextView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:text="Hiiii" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:text="Hiiii" />
-        </LinearLayout>
-
-
-    </android.support.v4.widget.NestedScrollView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </android.support.design.widget.CoordinatorLayout>
