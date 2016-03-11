@@ -1,6 +1,5 @@
 package com.example.philoniare.kstar;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -9,13 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +26,9 @@ public class DetailActivity extends AppCompatActivity {
     private ImageView imageView;
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
+    String profileText;
+    ArrayList<String> images;
+    ArrayList<String> videos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +38,10 @@ public class DetailActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         String title = bundle.getString("title");
         String imageURL = bundle.getString("imageURL");
+        profileText = bundle.getString("profileText");
+
+        images = bundle.getStringArrayList("images");
+        videos = bundle.getStringArrayList("videos");
 
         // titleTextView = (TextView) findViewById(R.id.artistTitle);
         // titleTextView.setText(title);
@@ -55,8 +55,6 @@ public class DetailActivity extends AppCompatActivity {
 
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(title);
-
-
 
         // Toolbar color based on image palette
 //        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
@@ -76,26 +74,12 @@ public class DetailActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabanim_tabs);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabTextColors(R.color.textSecondary, R.color.colorToolbarTitle);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
                 viewPager.setCurrentItem(tab.getPosition());
-
-                switch (tab.getPosition()) {
-                    case 0:
-                        showToast("One");
-                        break;
-                    case 1:
-                        showToast("Two");
-
-                        break;
-                    case 2:
-                        showToast("Three");
-
-                        break;
-                }
             }
 
             @Override
@@ -108,9 +92,6 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 
     void showToast(String msg) {
@@ -119,9 +100,24 @@ public class DetailActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new DummyFragment(getResources().getColor(R.color.accent_material_light)), "CAT");
-        adapter.addFrag(new DummyFragment(getResources().getColor(R.color.ripple_material_light)), "DOG");
-        adapter.addFrag(new DummyFragment(getResources().getColor(R.color.button_material_dark)), "MOUSE");
+        ProfileFragment profileFragment = new ProfileFragment(getResources().getColor(R.color.textPrimary));
+        Bundle profileBundle = new Bundle();
+        profileBundle.putString("profileText", profileText);
+        profileFragment.setArguments(profileBundle);
+
+        ImagesFragment imagesFragment = new ImagesFragment(getResources().getColor(R.color.textPrimary));
+        Bundle imagesBundle = new Bundle();
+        imagesBundle.putStringArrayList("images", images);
+        imagesFragment.setArguments(imagesBundle);
+
+        VideosFragment videosFragment = new VideosFragment(getResources().getColor(R.color.textPrimary));
+        Bundle videosBundle = new Bundle();
+        videosBundle.putStringArrayList("videos", videos);
+        videosFragment.setArguments(videosBundle);
+
+        adapter.addFrag(profileFragment, "Profile");
+        adapter.addFrag(imagesFragment, "Images");
+        adapter.addFrag(videosFragment, "Videos");
         viewPager.setAdapter(adapter);
     }
 
@@ -153,43 +149,4 @@ public class DetailActivity extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
-
-    public static class DummyFragment extends Fragment {
-        int color;
-        SimpleRecyclerAdapter adapter;
-
-        public DummyFragment() {
-        }
-
-        @SuppressLint("ValidFragment")
-        public DummyFragment(int color) {
-            this.color = color;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View view = inflater.inflate(R.layout.dummy_fragment, container, false);
-
-            final FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.dummyfrag_bg);
-            frameLayout.setBackgroundColor(color);
-
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.dummyfrag_scrollableview);
-
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getBaseContext());
-            recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.setHasFixedSize(true);
-
-            List<String> list = new ArrayList<String>();
-            for (int i = 0; i < VersionModel.data.length; i++) {
-                list.add(VersionModel.data[i]);
-            }
-
-            adapter = new SimpleRecyclerAdapter(list);
-            recyclerView.setAdapter(adapter);
-
-            return view;
-        }
-    }
-
-
 }
